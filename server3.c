@@ -12,7 +12,7 @@
 
 #define PORT 8080
 #define BUFFER_SIZE 1024
-#define MAX_CLIENTS 3
+#define MAX_CLIENTS 1024
 #define USER_FILE "users.txt"
 
 struct user_info {
@@ -199,7 +199,7 @@ int main() {
         exit(EXIT_FAILURE);
     }
 
-    printf("UDP Server Listening on port %d\n", PORT);
+    printf("Serwer Forum wlaczony, nasluchiwanie na porcie %d\n", PORT);
     max_sd = sockfd;
 
     while (1) {
@@ -258,7 +258,7 @@ int main() {
                     clients[client_index].last_heartbeat = time(NULL);
                     char *message = "HEARTBEAT_ACK";
                     sendto(sockfd, message, strlen(message), 0, (struct sockaddr*)&cliaddr, sizeof(cliaddr));
-		            printf("Otrzymano HEARTBEAT od klienta: %s\n", clients[client_index].username);
+		            // printf("Otrzymano HEARTBEAT od klienta: %s\n", clients[client_index].username);
                 }
 		}
                 else {
@@ -271,7 +271,7 @@ int main() {
     }
 	for (int i = 0; i < MAX_CLIENTS; i++) {
         if (clients[i].logged_in && time(NULL) - clients[i].last_heartbeat > 8) {
-            printf("Klient %s stracił połączenie\n", clients[i].username);
+            printf("Klient %s stracil polaczenie\n", clients[i].username);
             syslog(LOG_LOCAL1 | LOG_INFO, "Klient %s utracil polaczenie.", clients[i].username);
             clients[i].active = 0;
             strcpy(clients[i].username, "");

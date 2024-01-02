@@ -38,7 +38,7 @@ void send_message(int sockfd, struct sockaddr_in servaddr, char* username, char*
     sprintf(full_message, "%s:%s:%s", action, username, message);
     int bytes_sent = sendto(sockfd, (const char*)full_message, strlen(full_message), 0, (const struct sockaddr*)&servaddr, sizeof(servaddr));
     if (bytes_sent < 0) {
-        perror("Błąd wysyłania wiadomości");
+        perror("Blad wysylania wiadomosci");
     } else {
         //printf("Wysłano %d bajtów\n", bytes_sent);
     }
@@ -131,26 +131,18 @@ int main() {
 
                     if (choice == 1) {
                         send_request(sockfd, servaddr, username, password, "LOGIN");
-                        // gettimeofday(&now, NULL);
-			        // send_message(sockfd, servaddr, username, "HEARTBEAT", "HEARTBEAT");
-                    // last_heartbeat = now;
 			            
                     } else if (choice == 2) {
                         send_request(sockfd, servaddr, username, password, "REGISTER");
-                        // gettimeofday(&now, NULL);
-			        // send_message(sockfd, servaddr, username, "HEARTBEAT", "HEARTBEAT");
-                    // last_heartbeat = now;
-			            
                     }
                 } else {
                     printf("**Nieprawidłowa opcja!**\n");
                 }
             } else {
                 
-                // printf("> ");
                 fgets(buffer, BUFFER_SIZE, stdin);
                 if(time(NULL) - server_activity > 7) {
-                    printf("SERWER NIE ODPOWIADA!");
+                    printf("SERWER NIE ODPOWIADA! \n");
                 }
                 buffer[strcspn(buffer, "\n")] = 0; 
 
@@ -180,18 +172,16 @@ int main() {
 
             if (valread > 0) {
                 buffer[valread] = '\0';
+                printf("%s\n", buffer);
                 if(strcmp(buffer, "HEARTBEAT_ACK") == 0) {
                     server_activity = time(NULL);
-                } else {
+                 } else {
                     printf("%s\n", buffer);
-                }
+                 }
                 
                 
                 if (strcmp(buffer, "LOGIN_SUCCESS") == 0 || strcmp(buffer, "REGISTER_SUCCESS") == 0) {
                     logged_in = 1;
-                    // gettimeofday(&now, NULL);
-			        // send_message(sockfd, servaddr, username, "HEARTBEAT", "HEARTBEAT");
-                    // last_heartbeat = now;
                 }
             }
         }
