@@ -71,7 +71,8 @@ int main() {
     memset(&servaddr, 0, sizeof(servaddr));
     servaddr.sin_family = AF_INET;
     servaddr.sin_port = htons(PORT);
-    servaddr.sin_addr.s_addr = INADDR_ANY;
+    //servaddr.sin_addr.s_addr = INADDR_ANY; ODKOMENTOWAC BY DZIALALO LOKALNIE
+    //inet_pton(AF_INET, "192.168.10.10", &(servaddr.sin_addr)); ODKOMENTOWAC BY DZIALALO NA INNYCH KOMP.
 
     max_sd = sockfd;
 

@@ -274,6 +274,7 @@ int main() {
             printf("Klient %s stracil polaczenie\n", clients[i].username);
             syslog(LOG_LOCAL1 | LOG_INFO, "Klient %s utracil polaczenie.", clients[i].username);
             clients[i].active = 0;
+            clients[i].logged_in = 0;
             strcpy(clients[i].username, "");
         }
     }
