@@ -271,8 +271,12 @@ int main() {
     }
 	for (int i = 0; i < MAX_CLIENTS; i++) {
         if (clients[i].logged_in && time(NULL) - clients[i].last_heartbeat > 8) {
-            printf("Klient %s stracil polaczenie\n", clients[i].username);
+
+	    char annoucement[BUFFER_SIZE];
+            sprintf(annoucement, "Klient %s stracil polaczenie!\n", clients[i].username);
             syslog(LOG_LOCAL1 | LOG_INFO, "Klient %s utracil polaczenie.", clients[i].username);
+	    broadcast_log(sockfd, annoucement, clients, -1);
+
             clients[i].active = 0;
             clients[i].logged_in = 0;
             strcpy(clients[i].username, "");

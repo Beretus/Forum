@@ -44,7 +44,7 @@ void send_message(int sockfd, struct sockaddr_in servaddr, char* username, char*
     }
 }
 
-int main() {
+int main(int argc, char *argv[]) {
     struct sockaddr_in servaddr;
     fd_set readfds;
     int max_sd, activity, valread;
@@ -72,6 +72,12 @@ int main() {
     servaddr.sin_family = AF_INET;
     servaddr.sin_port = htons(PORT);
     //servaddr.sin_addr.s_addr = INADDR_ANY; ODKOMENTOWAC BY DZIALALO LOKALNIE
+    if (argc > 1) {
+        inet_pton(AF_INET, argv[1], &(servaddr.sin_addr));
+    } else {
+        printf("Podaj adres IP jako argument.\n");
+        return 1;
+    }
     //inet_pton(AF_INET, "192.168.10.10", &(servaddr.sin_addr)); ODKOMENTOWAC BY DZIALALO NA INNYCH KOMP.
 
     max_sd = sockfd;
@@ -173,7 +179,6 @@ int main() {
 
             if (valread > 0) {
                 buffer[valread] = '\0';
-                printf("%s\n", buffer);
                 if(strcmp(buffer, "HEARTBEAT_ACK") == 0) {
                     server_activity = time(NULL);
                  } else {
