@@ -139,7 +139,7 @@ void handle_login(int sockfd, struct sockaddr_in *cli_addr, socklen_t addr_len, 
             client_index = add_client(cli_addr, addr_len, username);
         }
         if (client_index != -1) {
-            int user_exists = check_existing_user(clients, 3, username);
+            int user_exists = check_existing_user(clients, 1024, username);
             if(user_exists) {
                 char response[] = "Uzytkownik o takiej nazwie jest juz zalogowany";
             sendto(sockfd, response, strlen(response), 0, (const struct sockaddr *)cli_addr, addr_len); 
